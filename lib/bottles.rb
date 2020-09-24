@@ -1,23 +1,26 @@
 class Bottles
 
+  def song
+    verses(99, 0)
+  end
+
   def verses(start_num, end_num)
     verses_to_sing = (end_num..start_num).to_a.reverse
-    verses_to_sing.map { |number| verse(number) }.join('')
+    verses_to_sing.map { |number| verse(number) }.join("\n")
   end
 
   def verse(number)
-    if number == 1
+    case number
+    when 1
       verse_1
-    elsif number.zero?
+    when 0
       verse_0
     else
-      one_less = number - 1
-      "#{number} bottles of milk on the wall, " +
-        "#{number} bottles of milk.\n" +
-        "Take one down and pass it around, " +
-        "#{one_less} #{pluralize('bottle', one_less)} of milk on the wall.\n"
+      verse_n(number)
     end
   end
+
+  private
 
   def verse_1
     "1 bottle of milk on the wall, " +
@@ -33,7 +36,13 @@ class Bottles
       "99 bottles of milk on the wall.\n"
   end
 
-private
+  def verse_n(number)
+    one_less = number - 1
+      "#{number} bottles of milk on the wall, " +
+      "#{number} bottles of milk.\n" +
+      "Take one down and pass it around, " +
+      "#{one_less} #{pluralize('bottle', one_less)} of milk on the wall.\n"
+  end
 
   def pluralize(word, number)
     number > 1 ? "#{word}s" : word
